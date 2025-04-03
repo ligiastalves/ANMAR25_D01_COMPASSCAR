@@ -16,7 +16,7 @@ const CarItems = sequelize.define(
 );
 
 //Relation
-Car.hasMany(CarItems, { foreignKey: 'car_id'});
+Car.hasMany(CarItems, { foreignKey: 'car_id', onDelete: "CASCADE"});
 CarItems.belongsTo(Car, { foreignKey: 'car_id'});
 
 module.exports = CarItems;
