@@ -133,7 +133,7 @@ const updateCar = async (req, res) => {
     const { brand, model, year, plate } = req.body;
     const errors = [];
 
-    console.log('Recebendo PAtCH para atualizar carro: ', req.body);
+    console.log('Receiving PAtCH to update car: ', req.body);
 
     const car = await Car.findByPk(id);
     if (!car) {
@@ -181,4 +181,27 @@ const updateCar = async (req, res) => {
 
 };
 
-module.exports = { createCar, updateCarItems, getCarById, listCars, updateCar };
+//route DELETE
+const deleteCar = async (req, res) =>{
+ try {
+  const { id } = req.params;
+
+  const car = await Car.findByPk(id);
+
+  if (!car){
+    return res.status(404).json({ errors: ['car not found'] });
+  }
+
+  await CarItems.destroy({ where: { car_id: id } });
+
+  await car.destroy();
+  
+  return res.status(204).send();
+ }catch (error) {
+  console.log("Error deleting car: ", error);
+  return res.status(500).json({ errors: ['Internal server error'] });
+ }
+
+};
+
+module.exports = { createCar, updateCarItems, getCarById, listCars, updateCar, deleteCar };

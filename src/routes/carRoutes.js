@@ -17,4 +17,7 @@ router.get('/', carController.listCars);
 //Router to update car data
 router.patch('/:id', carController.updateCar);
 
+//Route to delete a car
+router.delete('/:id', carController.deleteCar);
+
 module.exports = router;
