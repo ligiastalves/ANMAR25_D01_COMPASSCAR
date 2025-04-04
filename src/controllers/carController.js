@@ -10,7 +10,7 @@ const createCar = async (req, res) => {
   } catch (error) {
     return res
       .status(error.status || 500)
-      .json({ errors: error.errors || ["Internal server error"] });
+      .json({ errors: error.errors || ["an internal server error occurred"] });
   }
 };
 
@@ -46,7 +46,7 @@ const updateCarItems = async (req, res) => {
     return res.status(204).send();
   } catch (error) {
     console.error("Error updating car items: ", error);
-    return res.status(500).json({ errors: ["Internal server error"] });
+    return res.status(500).json({ errors: ["an internal server error occurred"] });
   }
 };
 
@@ -79,7 +79,7 @@ const getCarById = async (req, res) =>{
     return res.status(200).json(carData);
   } catch (error){
     console.error('Error fetching car by ID', error);
-    return res.status(500).json({ errors: ['Internal server error'] });
+    return res.status(500).json({ errors: ['an internal server error occurred'] });
   }
 };
 
@@ -122,7 +122,7 @@ const listCars = async (req, res) => {
 
   } catch (error){
     console.error('Error listing cars: ', error);
-    return res.status(500).json ({ errors: ['Internal server error'] });
+    return res.status(500).json ({ errors: ['an internal server error occurred'] });
   }
 };
 
@@ -176,7 +176,7 @@ const updateCar = async (req, res) => {
 
   }catch (error){
     console.error('error to update carro ', error);
-    return res.status(500).json ({ errors: ['Internal server error'] });
+    return res.status(500).json ({ errors: ['an internal server error occurred'] });
   }
 
 };
@@ -199,7 +199,7 @@ const deleteCar = async (req, res) =>{
   return res.status(204).send();
  }catch (error) {
   console.log("Error deleting car: ", error);
-  return res.status(500).json({ errors: ['Internal server error'] });
+  return res.status(500).json({ errors: ['an an internal server error occurred occurred'] });
  }
 
 };
