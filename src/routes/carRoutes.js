@@ -14,4 +14,7 @@ router.get('/:id', carController.getCarById);
 //Router to list cars with pagination and filters
 router.get('/', carController.listCars);
 
+//Router to update car data
+router.patch('/:id', carController.updateCar);
+
 module.exports = router;

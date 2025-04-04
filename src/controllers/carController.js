@@ -126,4 +126,59 @@ const listCars = async (req, res) => {
   }
 };
 
-module.exports = { createCar, updateCarItems, getCarById, listCars };
+//route PATCH - Update car data
+const updateCar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { brand, model, year, plate } = req.body;
+    const errors = [];
+
+    console.log('Recebendo PAtCH para atualizar carro: ', req.body);
+
+    const car = await Car.findByPk(id);
+    if (!car) {
+      return res.status (404).json({ errors: ['car not found'] });
+    }
+
+    if (brand && !model){
+      errors.push('model must also be informed');
+    }
+
+    if (year && ( year < 2026 || year > 2026 )){
+      errors.push('year must be between 2016 and 2026');
+    }
+
+    const plateRegex = /^[A-Z]{3}-\d[A-Z]\d{2}$/;
+    if (plate && !plateRegex.test(plate)){
+      errors.push('plate must be in the correct format ABC-1C34');
+    }
+
+    if (errors.length > 0 ){
+      return res.status(400).json({ errors });
+    }
+
+    if (plate) {
+      const existingCar = await Car.findOne ({ where: {plate} });
+      if (existingCar && existingCar.id !== Number(id)) {
+        return res.status(409).json({ errors: ['car already registered'] });
+      }
+    }
+
+    const updateFields = {};
+    if (brand) updateFields.brand = brand;
+    if (model) updateFields.model = model;
+    if (year) updateFields.year = year;
+    if (plate) updateFields.plate = plate;
+
+    await car.update(updateFields);
+
+    return res.status(204).send();
+
+  }catch (error){
+    console.error('error to update carro ', error);
+    return res.status(500).json ({ errors: ['Internal server error'] });
+  }
+
+};
+
+module.exports = { createCar, updateCarItems, getCarById, listCars, updateCar };
